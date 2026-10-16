@@ -1,0 +1,5 @@
+FROM eclipse-temurin:17-jre
+WORKDIR /app
+COPY build/libs/app.jar app.jar
+EXPOSE 8080 3002
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=docker", "app.jar"]

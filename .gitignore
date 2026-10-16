@@ -1,0 +1,52 @@
+# === Gradle / build ===
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# === IDE ===
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath
+.springBeans
+.sts4-cache
+bin/
+
+# === Entorno y secretos (NUNCA subir) ===
+.env
+.env.*
+*.env
+!.env.example
+application.properties
+application.yml
+application-*.properties
+application-*.yml
+*-service-account.json
+firebase-service-account.json
+firebase-key.json
+google-credentials.json
+*.pem
+*.key
+*.p12
+*.jks
+
+# === Logs ===
+*.log
+
+# === Contenido subido por usuarios ===
+uploads/
+
+# === Kotlin / JVM ===
+.kotlin/
+
+# === Basura de sistema / redirecciones de PowerShell ===
+nul
+NUL
+Thumbs.db
+Desktop.ini

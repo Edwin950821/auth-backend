@@ -1,0 +1,52 @@
+services:
+  app:
+    build: .
+    container_name: kompralo-app
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+      - "3002:3002"
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:-jdbc:postgresql://db:5432/kompralo}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME:-postgres}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD:-postgres}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "false"
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION: "86400000"
+      GOOGLE_APPLICATION_CREDENTIALS: /app/firebase-key.json
+      GMAIL_API_CLIENT_ID: ${GMAIL_API_CLIENT_ID}
+      GMAIL_API_CLIENT_SECRET: ${GMAIL_API_CLIENT_SECRET}
+      GMAIL_API_REFRESH_TOKEN: ${GMAIL_API_REFRESH_TOKEN}
+      GMAIL_API_FROM_ADDRESS: ${GMAIL_API_FROM_ADDRESS:-kompralomarketplace@gmail.com}
+      GMAIL_API_FROM_NAME: ${GMAIL_API_FROM_NAME:-Soporte Kompralo App}
+    volumes:
+      - ./firebase-key.json:/app/firebase-key.json:ro
+    depends_on:
+      - db
+    networks:
+      - kompralo-net
+
+  db:
+    image: postgres:15-alpine
+    container_name: kompralo-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-kompralo}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - kompralo-net
+
+volumes:
+  postgres_data:
+    external: true
+    name: auth-backend_postgres_data
+
+networks:
+  kompralo-net:
+    driver: bridge
